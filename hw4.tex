@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+% ECS 261 HW4 Problem Set
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+
+\usepackage[margin=1.5in]{geometry}
+
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\newcommand{\visiblehref}[2]{\href{#1}{#2}\footnote{\url{#1}}}
+\renewcommand{\wp}{\mathsf{WP}}
+\renewcommand{\sp}{\mathsf{SP}}
+
+\begin{document}
+
+\title{HW4 Problem Set}
+\author{ECS 261}
+\date{Due: Friday, May 30, 2025}
+
+\maketitle
+
+\begin{enumerate}
+\item
+For a program $P$ and formula $\varphi$,
+let $\wp(P, \varphi)$ denote the weakest precondition and
+$\sp(P, \varphi)$ denote the strongest postcondition.
+
+Give examples in Dafny which show the following:
+\begin{enumerate}[(a)]
+\item A program $P$, a precondition $\varphi$ and postcondition $\psi$,
+where $\psi$ is the strongest postcondition for $\varphi$ but $\varphi$ is not the weakest precondition for $\psi$.
+\item A program $P$, precondition $\varphi$ and postcondition $\psi$,
+where $\varphi$ is the weakest precondition for $\psi$ but $\psi$ is not the strongest postcondition for $\varphi$.
+\end{enumerate}
+
+For both parts, show that the original strongest-postcondition (or weakest-precondition) relationship holds, *and* that the new different precondition (or postcondition, respectively) holds, by adding it also in the code, as shown below.
+Your program may be the same for the two parts.
+Additionally, use Dafny to show that the new precondition or postcondition is different
+by giving specific examples that satisfy one precondition or postcondition, but not the other.
+
+\begin{verbatim}
+method Prog_a()
+requires (old_precondition_a) || (new_precondition)
+ensures (old_postcondition_a)
+{
+}
+
+method Prog_b()
+requires (old_precondition_b)
+ensures (old_postcondition_b) && (new_postcondition)
+{
+}
+
+lemma Stronger_a()
+// State and prove that new_precondition is different than
+// old_precondition_a
+{
+}
+
+lemma Stronger_b()
+// State and prove that new_postcondition is different than
+// old_postcondition_b
+{
+}
+\end{verbatim}
+
+\item
+State which of the following is possible.
+If it is possible, give an example; if it is impossible, give a short proof.
+For all parts, preconditions and postconditions are considered the same if they are
+logically equivalent as formulas (i.e., each one implies the other).
+\begin{enumerate}[(a)]
+\item
+For the same postcondition, two different programs have the same weakest precondition.
+\item
+For the same precondition, two different programs have the same strongest postcondition.
+\item
+For the same program, two different preconditions have the same strongest postcondition.
+\item
+For the same program, two different postconditions have the same weakest precondition.
+\item
+For a program P and postconditions $\varphi_1$ and $\varphi_2$ such that $\varphi_1$ is strictly stronger than $\varphi_2$,
+$\wp(P, \varphi_1)$ is equivalent to $\wp(P, \varphi_2)$.
+\item
+For a program P and preconditions $\varphi_1$ and $\varphi_2$ such that $\varphi_1$ is strictly stronger than $\varphi_2$, $\sp(P, \varphi_1)$ is equivalent to $\sp(P, \varphi_2)$.
+\end{enumerate}
+
+\item
+
+\item
+
+\item
+
+\end{enumerate}
+
+\noindent
+\textbf{Submission instructions:}
+\begin{itemize}
+\item Upload your solutions (as a PDF) and your code (in Dafny) in Gradescope.
+\item If you use this LaTeX template to create your solutions, please remove the problem statements
+and include only your solutions.
+\item Your code should be a file \texttt{hw4.py}, together with any necessary helper files.
+It should include your solutions for parts 1, 3, and 5.
+\item Please include all of the function names and signatures as listed in the document above,
+and do not modify any function signatures. (You are welcome to add additional functions and tests.)
+\end{itemize}
+
+\end{document}
