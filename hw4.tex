@@ -89,6 +89,29 @@ The weakest precondition of \texttt{false} is \texttt{true}.
 \end{enumerate}
 
 \item
+In class we saw that it is sometimes possible that there are multiple different loop invariants
+which can be used to prove a program correct.
+Here is a simple toy program which tries to search for the number 10.
+\begin{verbatim}
+method FindTen(m: nat) returns (n: nat)
+requires m == 4
+ensures n == 10
+{
+    n := m;
+    while n < 10
+    // invariant ...
+    {
+        n := n + 2;
+    }
+}
+\end{verbatim}
+
+For the purposes of this problem, consider a valid loop invariant to be some set of integers
+$n$ between 0 and 20.
+How many valid loop invariants are there which allow us to prove the above program correct?
+Write each loop invariant down in the form \texttt{predicate invariant1(n: nat)}, \texttt{predicate invariant2(n: nat)}, etc. and check that the Dafny verification passes if any of these
+is used as the invariant above.
+Attach your Dafny code with your submission.
 
 \item
 According to the rules of Hoare logic,
@@ -173,13 +196,12 @@ You will receive partial credit if you can prove the code correct using some unp
 \noindent
 \textbf{Submission instructions:}
 \begin{itemize}
-\item Upload your solutions (as a PDF) and your code (in Dafny) in Gradescope.
-\item If you use this LaTeX template to create your solutions, please remove the problem statements
-and include only your solutions.
 \item Your code should be a file \texttt{hw4.py}, together with any necessary helper files.
 It should include your solutions for parts 1, 3, and 5.
 \item Please include all of the function names and signatures as listed in the document above,
 and do not modify any function signatures. (You are welcome to add additional functions and tests.)
+\item Upload your solutions (as a PDF) and your code (in Dafny) in Gradescope.
+\item If you use this LaTeX template to create your solutions, please remove the problem statements and include only your solutions.
 \end{itemize}
 
 \end{document}
