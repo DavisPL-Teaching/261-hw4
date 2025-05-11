@@ -91,8 +91,22 @@ The weakest precondition of \texttt{false} is \texttt{true}.
 \item
 
 \item
-
 According to the rules of Hoare logic,
+there is a proof rule for each syntax element: that is a way of proving
+the triple $\{P\} \; C \; \{Q\}$ where this means under precondition $P$, after executing program $C$, postcondition $Q$ holds.
+For example the rule for sequencing says that if we know $\{P\} C_1 \{Q\}$ and $\{Q\} C_2 \{R\}$,
+then we can show $\{P\} C_1; C_2 \{R\}$.
+
+Suppose that we extend the language of programs with a \emph{case} statement that has syntax as follows:
+``\texttt{case} $n_1$ $n_2$ \texttt{less =>} $C_1$ \texttt{eq =>} $C_2$ \texttt{greater =>} $C_3$''.
+The statement means to compare the integer expressions $n_1$ and $n_2$, and if they are less, equal to, or greater, execute the corresponding program $C_1$, $C_2$, or $C_3$.
+
+\begin{enumerate}[(a)]
+\item Give a proof rule for the \texttt{case} statement. Your proof rule should allow proving
+Hoare triples of the form $\{P\} \; C \; \{Q\}$ where $C$ is a case statement.
+\item Show that your proof rule does not fundamentally increase the expressiveness of Hoare logic in the following sense: give an encoding of \texttt{case} statements using if-then-else,
+and show that the Hoare rules for if-then-else can be used to prove your new proof rule that you provided in (a).
+\end{enumerate}
 
 \item
 Here are two different implementations of the \texttt{IsPrime} function.
