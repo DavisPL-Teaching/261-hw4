@@ -39,7 +39,7 @@ if for all variable assignments, the formula evaluates to true.
 A formula is \emph{provable} if it can be deduced from the finitely many allowed
 rules of first-order logic, together with any allowed axioms.
 
-We don't know if this true for sure, but one statement that \emph{may} be true but impossible to prove is the Collatz conjecture
+We don't know if this is true for sure, but one statement that \emph{may} be true but impossible to prove is the Collatz conjecture
 (there is a \visiblehref{https://www.youtube.com/watch?v=094y1Z2wpJg}{nice video by Veritasium on YouTube} if you would like a more detailed introduction).
 It says that if you take any positive integer $n$ and apply the following rules, the result should eventually end up at $1$:
 \begin{itemize}
@@ -103,6 +103,7 @@ ensures n == 10
     {
         n := n + 2;
     }
+    // n is now ten!
 }
 \end{verbatim}
 
@@ -112,6 +113,7 @@ How many valid loop invariants are there which allow us to prove the above progr
 Write each loop invariant down in the form \texttt{predicate invariant1(n: nat)}, \texttt{predicate invariant2(n: nat)}, etc. and check that the Dafny verification passes if any of these
 is used as the invariant above.
 Attach your Dafny code with your submission.
+Explain (in a few sentences) why there are no other possible invariants other than the ones you found.
 
 \item
 According to the rules of Hoare logic,
@@ -175,10 +177,10 @@ method IsPrimeEquiv(n: nat) {
 \end{verbatim}
 
 Attach your code with your submission.
-Your code should pass the verifier (\texttt{dafny verify hw4.dfy}) without any holes
+Your code should pass the verifier (\texttt{dafny verify hw4.dfy}) without any errors
 within a short time limit (under 10 seconds),
 and it should not have any unproven axioms or assume statements (\texttt{dafny audit hw4.dfy}).
-We recommend running these commands to check whether your
+We recommend running these commands to check whether you have missed any assumptions or whether some of your steps are taking too long to prove.
 
 \textbf{Note:}
 The proof for the above is difficult.
