@@ -33,75 +33,126 @@
 
 \begin{enumerate}
 \item
-For a program $P$ and formula $\varphi$,
-let $\wp(P, \varphi)$ denote the weakest precondition and
-$\sp(P, \varphi)$ denote the strongest postcondition.
+In class, we saw that there is a difference between
+\emph{truth} and \emph{provability}. A formula is \emph{true} over the natural numbers
+if for all variable assignments, the formula evaluates to true.
+A formula is \emph{provable} if it can be deduced from the finitely many allowed
+rules of first-order logic, together with any allowed axioms.
 
-Give examples in Dafny which show the following:
-\begin{enumerate}[(a)]
-\item A program $P$, a precondition $\varphi$ and postcondition $\psi$,
-where $\psi$ is the strongest postcondition for $\varphi$ but $\varphi$ is not the weakest precondition for $\psi$.
-\item A program $P$, precondition $\varphi$ and postcondition $\psi$,
-where $\varphi$ is the weakest precondition for $\psi$ but $\psi$ is not the strongest postcondition for $\varphi$.
+We don't know if this true for sure, but one statement that \emph{may} be true but impossible to prove is the Collatz conjecture
+(there is a \visiblehref{https://www.youtube.com/watch?v=094y1Z2wpJg}{nice video by Veritasium on YouTube} if you would like a more detailed introduction).
+It says that if you take any positive integer $n$ and apply the following rules, the result should eventually end up at $1$:
+\begin{itemize}
+\item If $n$ is even, replace $n$ with $n / 2$.
+\item If $n$ is odd, replace $n$ with $3 * n + 1$.
+\end{itemize}
+
+\begin{enumerate}
+\item[(a)]
+Write a method in Dafny together with a pre and postcondition
+such that the method is correct (terminates on all inputs in a state satisfying the postcondition)
+if and only if the Collatz conjecture is true. Please use the following signature: \texttt{method Collatz(n: nat) returns (b: bool)}.
+
+\item[(b)]
+Does verification pass?
+Explain what might happen if you try to add more assertions and invariants to prove the statement.
+
+\item[(c)]
+Add the following annotation to your method:
+\texttt{decreases *} and to all while loops inside it.
+This tells Dafny that the method may not terminate.
+Show that you can get this modified code to pass the Dafny verifier.
+Explain why this does not prove the Collatz conjecture and why it does not contradict the result from class that some statements are true but not provable.
+
 \end{enumerate}
 
-For both parts, show that the original strongest-postcondition (or weakest-precondition) relationship holds, *and* that the new different precondition (or postcondition, respectively) holds, by adding it also in the code, as shown below.
-Your program may be the same for the two parts.
-Additionally, use Dafny to show that the new precondition or postcondition is different
-by giving specific examples that satisfy one precondition or postcondition, but not the other.
+\item
+This problem is about strongest postconditions and weakest preconditions.
+For a program $P$, state which of the following is possible.
+If it is possible, give an example;
+if it is impossible, give a short proof.
+For all parts, preconditions and postconditions are considered the same if they are
+logically equivalent as formulas (i.e., each one implies the other).
+
+\begin{enumerate}[(a)]
+\item
+Two different preconditions have the same strongest postcondition.
+\item
+Two different postconditions have the same weakest precondition.
+\item For some precondition $\varphi$ and postcondition $\psi$, $\psi$ is the strongest postcondition for $\varphi$ but $\varphi$ is not the weakest precondition for $\psi$.
+\item For some precondition $\varphi$ and postcondition $\psi$,
+$\varphi$ is the weakest precondition for $\psi$ but $\psi$ is not the strongest postcondition for $\varphi$.
+\item
+The weakest precondition of \texttt{true} is \texttt{false}.
+\item
+The weakest precondition of \texttt{false} is \texttt{true}.
+\end{enumerate}
+
+\item
+
+\item
+
+According to the rules of Hoare logic,
+
+\item
+Here are two different implementations of the \texttt{IsPrime} function.
+Use Dafny to prove that the two functions are equivalent.
+You should do so by filling in an appropriate spec for both functions,
+and then filling in the proof with associated invariants and lemma(s) as needed
+such that the following test passes the Dafny verifier.
+You should not change the implementation of either function.
 
 \begin{verbatim}
-method Prog_a()
-requires (old_precondition_a) || (new_precondition)
-ensures (old_postcondition_a)
-{
+method IsPrime1(n: nat) returns (result: bool) {
+    if n <= 1 {
+        return false;
+    }
+    for d := 2 to n {
+        if (n % d == 0) {
+            return false;
+        }
+    }
+    return true;
 }
 
-method Prog_b()
-requires (old_precondition_b)
-ensures (old_postcondition_b) && (new_postcondition)
-{
+method IsPrime2(n: nat) returns (result: bool) {
+    if n <= 1 {
+        return false;
+    }
+    var d := 2;
+    while d * d <= n {
+        if n % d == 0 {
+            return false;
+        }
+        d := d + 1;
+    }
+
+    return true;
 }
 
-lemma Stronger_a()
-// State and prove that new_precondition is different than
-// old_precondition_a
-{
-}
-
-lemma Stronger_b()
-// State and prove that new_postcondition is different than
-// old_postcondition_b
-{
+method IsPrimeEquiv(n: nat) {
+    var y1 := IsPrime1(n);
+    var y2 := IsPrime2(n);
+    assert y1 == y2;
 }
 \end{verbatim}
 
-\item
-State which of the following is possible.
-If it is possible, give an example; if it is impossible, give a short proof.
-For all parts, preconditions and postconditions are considered the same if they are
-logically equivalent as formulas (i.e., each one implies the other).
-\begin{enumerate}[(a)]
-\item
-For the same postcondition, two different programs have the same weakest precondition.
-\item
-For the same precondition, two different programs have the same strongest postcondition.
-\item
-For the same program, two different preconditions have the same strongest postcondition.
-\item
-For the same program, two different postconditions have the same weakest precondition.
-\item
-For a program P and postconditions $\varphi_1$ and $\varphi_2$ such that $\varphi_1$ is strictly stronger than $\varphi_2$,
-$\wp(P, \varphi_1)$ is equivalent to $\wp(P, \varphi_2)$.
-\item
-For a program P and preconditions $\varphi_1$ and $\varphi_2$ such that $\varphi_1$ is strictly stronger than $\varphi_2$, $\sp(P, \varphi_1)$ is equivalent to $\sp(P, \varphi_2)$.
-\end{enumerate}
+Attach your code with your submission.
+Your code should pass the verifier (\texttt{dafny verify hw4.dfy}) without any holes
+within a short time limit (under 10 seconds),
+and it should not have any unproven axioms or assume statements (\texttt{dafny audit hw4.dfy}).
+We recommend running these commands to check whether your
 
-\item
-
-\item
-
-\item
+\textbf{Note:}
+The proof for the above is difficult.
+The official solution uses about 100-200 lines of lemmas
+to ensure the postcondition for the second function;
+they are various facts about integers or divisibility;
+for example, if $a * b = n$, then $n$ modulo $a$ and $n$ modulo $b$ return zero.
+These can be difficult to show, and sometimes require induction to show correctly.
+To use induction a lemma should itself on smaller arguments; the \visiblehref{https://dafny.org/dafny/OnlineTutorial/Lemmas}{Dafny tutorial} may be helpful.
+Please come to office hours if you get stuck.
+You will receive partial credit if you can prove the code correct using some unproven lemmas (\texttt{lemma{:axiom}}) about integers, multiplication (\texttt{*}) or modulo (\texttt{\%}) that are true statements.
 
 \end{enumerate}
 
