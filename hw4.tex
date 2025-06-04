@@ -63,7 +63,9 @@ ensures n == 10
 \end{verbatim}
 
 For the purposes of this problem, consider a valid loop invariant to be some set of integers
-$n$ between 0 and 20 (inclusive).
+$n$ between 0 and 20 (inclusive)
+which satisfies the properties (i), (ii), and (iii) we saw in class.
+
 How many valid loop invariants are there which allow us to prove the above program correct?
 Write each loop invariant down in the form \texttt{predicate invariant1(n: nat)}, \texttt{predicate invariant2(n: nat)}, etc. and check that the Dafny verification passes if any of these
 is used as the invariant above.
@@ -79,6 +81,9 @@ If it is possible, give an example;
 if it is impossible, give a short proof.
 For all parts, preconditions and postconditions are considered the same if they are
 logically equivalent as formulas (i.e., each one implies the other).
+
+Please assume a program that doesn't crash on any inputs, and doesn't have infinite loops.
+Also, assume that the program does not use \texttt{assert} or \texttt{assume}.
 
 \begin{enumerate}[(a)]
 \item
@@ -204,10 +209,10 @@ We recommend running these commands to check whether you have missed any assumpt
 The proof for the above is difficult.
 The official solution uses about 100-200 lines of lemmas
 to ensure the postcondition for the second function;
-they are various facts about integers or divisibility;
+they are various facts about integers or divisibility:
 for example, if $a * b = n$, then $n$ modulo $a$ and $n$ modulo $b$ return zero.
-These can be difficult to show, and sometimes require induction to show correctly.
-To use induction a lemma should itself on smaller arguments; the \visiblehref{https://dafny.org/dafny/OnlineTutorial/Lemmas}{Dafny tutorial} may be helpful.
+The following fact might be helpful: \texttt{x / y} and \texttt{x \% y} are the unique integers $q$ and $r$ (respectively) such that $x = q \cdot y + r$, where $0 < r < y$. (Prove this first!)
+For some solutions you might need to use induction; the \visiblehref{https://dafny.org/dafny/OnlineTutorial/Lemmas}{Dafny tutorial} may be helpful.
 Please come to office hours if you get stuck.
 You will receive partial credit if you can prove the code correct using some unproven lemmas (\texttt{lemma{:axiom}}) about integers, multiplication (\texttt{*}) or modulo (\texttt{\%}) that are true statements.
 
